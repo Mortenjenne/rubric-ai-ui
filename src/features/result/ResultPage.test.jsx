@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { ResultPage } from './ResultPage'
 import { buildEvaluation } from '../../test/fixtures/evaluation'
+import { expectResultLanded } from '../../test/helpers/assertions'
 
 function renderResult(evaluation) {
   return render(
@@ -23,22 +24,13 @@ describe('ResultPage', () => {
     const evaluation = buildEvaluation()
     renderResult(evaluation)
 
-    expect(screen.getByText(evaluation.overallAssessment)).toBeInTheDocument()
+    expectResultLanded(evaluation)
 
     for (const finding of evaluation.findings) {
-      expect(screen.getByText(finding.criterionName)).toBeInTheDocument()
-      expect(screen.getByText(finding.level)).toBeInTheDocument()
       expect(screen.getByText(finding.strengths[0])).toBeInTheDocument()
       expect(screen.getByText(finding.weaknesses[0])).toBeInTheDocument()
       expect(screen.getByText(finding.improvements[0])).toBeInTheDocument()
       expect(screen.getByText(new RegExp(finding.evidence[0]))).toBeInTheDocument()
-    }
-
-    expect(screen.getByText(evaluation.suggestedGrade.value)).toBeInTheDocument()
-    expect(screen.getByText(/advisory/i)).toBeInTheDocument()
-
-    for (const question of evaluation.dialogueQuestions) {
-      expect(screen.getByText(question)).toBeInTheDocument()
     }
   })
 

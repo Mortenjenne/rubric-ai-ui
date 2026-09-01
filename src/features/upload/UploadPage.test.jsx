@@ -7,6 +7,7 @@ import { http, HttpResponse } from 'msw'
 import App from '../../App'
 import { server } from '../../test/mocks/server'
 import { buildEvaluation } from '../../test/fixtures/evaluation'
+import { expectResultLanded } from '../../test/helpers/assertions'
 
 function renderApp() {
   const client = new QueryClient()
@@ -57,16 +58,7 @@ describe('Upload flow', () => {
       expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
     )
 
-    expect(screen.getByText(evaluation.overallAssessment)).toBeInTheDocument()
-    for (const finding of evaluation.findings) {
-      expect(screen.getByText(finding.criterionName)).toBeInTheDocument()
-      expect(screen.getByText(finding.level)).toBeInTheDocument()
-    }
-    expect(screen.getByText(evaluation.suggestedGrade.value)).toBeInTheDocument()
-    expect(screen.getByText(/advisory/i)).toBeInTheDocument()
-    for (const question of evaluation.dialogueQuestions) {
-      expect(screen.getByText(question)).toBeInTheDocument()
-    }
+    expectResultLanded(evaluation)
 
     expect(JSON.parse(localStorage.getItem('rubric-ai:labels'))).toEqual({
       'eval-123': 'Anna',
