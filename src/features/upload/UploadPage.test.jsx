@@ -1,0 +1,139 @@
+import { describe, expect, it, vi } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { http, HttpResponse } from 'msw'
+import App from '../../App'
+import { server } from '../../test/mocks/server'
+import { buildEvaluation } from '../../test/fixtures/evaluation'
+
+function renderApp() {
+  const client = new QueryClient()
+  return render(
+    <QueryClientProvider client={client}>
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>
+    </QueryClientProvider>,
+  )
+}
+
+function createDeferred() {
+  let resolve
+  const promise = new Promise((res) => {
+    resolve = res
+  })
+  return { promise, resolve }
+}
+
+describe('Upload flow', () => {
+  it('shows the in-progress state, then navigates to the Result view on success', async () => {
+    const evaluation = buildEvaluation({ evaluationId: 'eval-123' })
+    const deferred = createDeferred()
+    server.use(
+      http.post('*/api/evaluations', async () => {
+        await deferred.promise
+        return HttpResponse.json(evaluation)
+      }),
+    )
+
+    const user = userEvent.setup()
+    renderApp()
+
+    await user.type(
+      screen.getByLabelText(/report text/i),
+      'Jeg brugte C# og React til at bygge en løsning.',
+    )
+    await user.type(screen.getByLabelText(/label/i), 'Anna')
+    await user.click(screen.getByRole('button', { name: /submit/i }))
+
+    expect(screen.getByRole('button', { name: /evaluating/i })).toBeDisabled()
+    expect(screen.getByText(/20 to 90 seconds/i)).toBeInTheDocument()
+
+    deferred.resolve()
+
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
+    )
+
+    expect(screen.getByText(evaluation.overallAssessment)).toBeInTheDocument()
+    for (const finding of evaluation.findings) {
+      expect(screen.getByText(finding.criterionName)).toBeInTheDocument()
+      expect(screen.getByText(finding.level)).toBeInTheDocument()
+    }
+    expect(screen.getByText(evaluation.suggestedGrade.value)).toBeInTheDocument()
+    expect(screen.getByText(/advisory/i)).toBeInTheDocument()
+    for (const question of evaluation.dialogueQuestions) {
+      expect(screen.getByText(question)).toBeInTheDocument()
+    }
+
+    expect(JSON.parse(localStorage.getItem('rubric-ai:labels'))).toEqual({
+      'eval-123': 'Anna',
+    })
+  })
+
+  it('populates the textarea from an uploaded .txt file', async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    const file = new File(['Report text from a file.'], 'report.txt', {
+      type: 'text/plain',
+    })
+    await user.upload(screen.getByLabelText(/upload a \.md or \.txt file/i), file)
+
+    await waitFor(() =>
+      expect(screen.getByLabelText(/report text/i)).toHaveValue('Report text from a file.'),
+    )
+  })
+
+  it('blocks submission of blank or whitespace-only text', async () => {
+    let requestCount = 0
+    server.use(
+      http.post('*/api/evaluations', () => {
+        requestCount += 1
+        return HttpResponse.json(buildEvaluation())
+      }),
+    )
+
+    const user = userEvent.setup()
+    renderApp()
+
+    await user.type(screen.getByLabelText(/report text/i), '   ')
+    const submitButton = screen.getByRole('button', { name: /submit/i })
+
+    expect(submitButton).toBeDisabled()
+
+    await user.click(submitButton)
+
+    expect(requestCount).toBe(0)
+    expect(screen.getByRole('heading', { name: 'Upload' })).toBeInTheDocument()
+  })
+
+  it('warns before navigating away or reloading while a submission is in flight', async () => {
+    const deferred = createDeferred()
+    server.use(
+      http.post('*/api/evaluations', async () => {
+        await deferred.promise
+        return HttpResponse.json(buildEvaluation())
+      }),
+    )
+
+    const user = userEvent.setup()
+    renderApp()
+
+    await user.type(screen.getByLabelText(/report text/i), 'Some report text.')
+    await user.click(screen.getByRole('button', { name: /submit/i }))
+
+    const event = new Event('beforeunload', { cancelable: true })
+    const preventDefaultSpy = vi.spyOn(event, 'preventDefault')
+    window.dispatchEvent(event)
+
+    expect(preventDefaultSpy).toHaveBeenCalled()
+
+    deferred.resolve()
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
+    )
+  })
+})
