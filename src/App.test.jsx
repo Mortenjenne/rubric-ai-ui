@@ -17,18 +17,26 @@ function renderApp() {
 }
 
 describe('App shell', () => {
-  it('renders nav and navigates between Upload and History', async () => {
+  it('renders a sidebar and navigates between Upload and History', async () => {
     const user = userEvent.setup()
     renderApp()
 
-    expect(screen.getByRole('link', { name: 'Indlevering' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Ny indlevering' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Historik' })).toBeInTheDocument()
+    expect(screen.getByText('Underviser')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Indlevering' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('link', { name: 'Historik' }))
     expect(screen.getByRole('heading', { name: 'Historik' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('link', { name: 'Indlevering' }))
+    await user.click(screen.getByRole('link', { name: 'Ny indlevering' }))
     expect(screen.getByRole('heading', { name: 'Indlevering' })).toBeInTheDocument()
+  })
+
+  it('has no login, account, or Educator-switching UI', () => {
+    renderApp()
+
+    expect(screen.queryByRole('button', { name: /log ind/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /log ind/i })).not.toBeInTheDocument()
   })
 })

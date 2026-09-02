@@ -1,0 +1,12 @@
+.shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  text-align: left;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 1.5rem;
+}

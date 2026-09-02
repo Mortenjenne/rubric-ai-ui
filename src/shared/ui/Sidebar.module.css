@@ -1,0 +1,39 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 220px;
+  flex-shrink: 0;
+  padding: 1.5rem 1rem;
+  border-right: 1px solid var(--border);
+  text-align: left;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.link:hover {
+  background: var(--accent-bg);
+}
+
+.linkActive {
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.identity {
+  color: var(--text);
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
