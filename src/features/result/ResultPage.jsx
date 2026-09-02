@@ -1,5 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom'
 import { getLabel } from '../../shared/storage/labels'
+import { useEvaluation } from './useEvaluation'
+import { ErrorBox } from '../../shared/ui/ErrorBox'
 
 function ListSection({ title, items }) {
   return (
@@ -14,25 +16,11 @@ function ListSection({ title, items }) {
   )
 }
 
-export function ResultPage() {
-  const { evaluationId } = useParams()
-  const location = useLocation()
-  const evaluation = location.state?.evaluation
-
-  if (!evaluation) {
-    return (
-      <section>
-        <h1>Evaluation</h1>
-        <p>Evaluation {evaluationId}</p>
-      </section>
-    )
-  }
-
+function EvaluationView({ evaluation }) {
   const label = getLabel(evaluation.evaluationId)
 
   return (
-    <section>
-      <h1>Evaluation</h1>
+    <>
       {label && <p>Label: {label}</p>}
 
       <p>{evaluation.overallAssessment}</p>
@@ -76,6 +64,48 @@ export function ResultPage() {
           ))}
         </ul>
       </section>
+    </>
+  )
+}
+
+export function ResultPage() {
+  const { evaluationId } = useParams()
+  const location = useLocation()
+  const submittedEvaluation = location.state?.evaluation
+  const isFetchPath = !submittedEvaluation
+
+  const {
+    data: fetchedEvaluation,
+    isPending,
+    isError,
+    error,
+    refetch,
+  } = useEvaluation(evaluationId, { enabled: isFetchPath })
+
+  const evaluation = submittedEvaluation ?? fetchedEvaluation
+  // 404 (no such id) and 400 (malformed id) both mean this id will never resolve — retrying
+  // can't help, unlike the transient failures documented for this endpoint.
+  const isUnresolvableId = error?.code === 'evaluation_not_found' || error?.status === 400
+
+  return (
+    <section>
+      <h1>Evaluation</h1>
+
+      {isFetchPath && isPending && <p role="status">Loading evaluation…</p>}
+
+      {isFetchPath && isError && isUnresolvableId && (
+        <ErrorBox message={`No evaluation exists with id ${evaluationId}.`} />
+      )}
+
+      {isFetchPath && isError && !isUnresolvableId && (
+        <ErrorBox
+          message="This evaluation couldn't be loaded. You can try again."
+          actionLabel="Retry"
+          onAction={refetch}
+        />
+      )}
+
+      {evaluation && <EvaluationView evaluation={evaluation} />}
     </section>
   )
 }
