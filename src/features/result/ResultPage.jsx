@@ -6,7 +6,7 @@ import { useEvaluation } from './useEvaluation'
 import { EvaluationColumn } from './EvaluationColumn'
 import { SubmissionPanel } from './SubmissionPanel'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
-import { SuggestedGrade } from '../../shared/ui/SuggestedGrade'
+import { SuggestedGradePanel } from './SuggestedGradePanel'
 import { strings } from '../../shared/i18n/strings'
 import styles from './ResultPage.module.css'
 
@@ -78,7 +78,7 @@ export function ResultPage() {
             <SubmissionPanel submissionText={submissionText} label={label} />
           )}
           <EvaluationColumn evaluation={evaluation} label={showSubmissionPanel ? undefined : label} />
-          <SuggestedGrade grade={evaluation.suggestedGrade} />
+          <SuggestedGradePanel grade={evaluation.suggestedGrade} />
         </div>
       )}
     </section>

@@ -1,16 +1,14 @@
 import { strings } from '../i18n/strings'
-import styles from './SuggestedGrade.module.css'
 
 /**
  * Renders an Evaluation's Suggested grade, always labeled advisory — never as a decided mark.
+ * Deliberately minimal markup so it fits both a compact History row and a full Evaluation panel.
  * @param {{ grade: { value: string, advisory: boolean } }} props
  */
 export function SuggestedGrade({ grade }) {
   return (
-    <div className={styles.card}>
-      <h2 className={styles.heading}>{strings.evaluation.suggestedGradeHeading}</h2>
-      <p className={styles.value}>{grade.value}</p>
-      <p className={styles.advisoryNote}>({strings.suggestedGrade.advisoryNote})</p>
-    </div>
+    <p>
+      <strong>{grade.value}</strong> <span>({strings.suggestedGrade.advisoryNote})</span>
+    </p>
   )
 }
