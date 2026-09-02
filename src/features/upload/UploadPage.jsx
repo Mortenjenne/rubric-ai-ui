@@ -37,7 +37,7 @@ export function UploadPage() {
       onSuccess: (evaluation) => {
         saveLabel(evaluation.evaluationId, label)
         navigate(`/evaluations/${evaluation.evaluationId}`, {
-          state: { evaluation },
+          state: { evaluation, submissionText: text },
         })
       },
     })

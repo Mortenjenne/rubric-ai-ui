@@ -1,0 +1,46 @@
+.twoColumns,
+.threeColumns {
+  display: grid;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.twoColumns {
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+}
+
+.threeColumns {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(220px, 1fr);
+}
+
+@media (max-width: 900px) {
+  .twoColumns,
+  .threeColumns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stateContainer {
+  max-width: 28rem;
+  margin: 2rem auto 0;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.spinnerGlyph {
+  display: block;
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.stateHeading {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.stateBody {
+  margin-top: 0.25rem;
+  color: var(--text);
+}

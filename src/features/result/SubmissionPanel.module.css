@@ -1,0 +1,19 @@
+.panel {
+  min-width: 0;
+  border-right: 1px solid var(--border);
+  padding-right: 1.5rem;
+}
+
+.label {
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.heading {
+  margin-bottom: 0.5rem;
+}
+
+.text {
+  white-space: pre-wrap;
+  color: var(--text);
+}

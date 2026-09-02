@@ -22,8 +22,11 @@ function renderAt(initialEntry) {
   )
 }
 
-function renderEvaluationSubmit(evaluation) {
-  return renderAt({ pathname: `/evaluations/${evaluation.evaluationId}`, state: { evaluation } })
+function renderEvaluationSubmit(evaluation, submissionText = 'Jeg brugte C# og React til opgaven.') {
+  return renderAt({
+    pathname: `/evaluations/${evaluation.evaluationId}`,
+    state: { evaluation, submissionText },
+  })
 }
 
 function renderEvaluationAtUrl(evaluationId) {
@@ -74,6 +77,44 @@ describe('ResultPage', () => {
 
     expect(screen.queryByText(/^Mærkat:/)).not.toBeInTheDocument()
   })
+
+  it('renders the three-column layout with the just-submitted Submission text visible', () => {
+    const evaluation = buildEvaluation()
+    renderEvaluationSubmit(evaluation, 'Mit indhold fra den indsendte indlevering.')
+
+    expect(screen.getByTestId('submission-panel')).toBeInTheDocument()
+    expect(screen.getByText('Mit indhold fra den indsendte indlevering.')).toBeInTheDocument()
+  })
+})
+
+describe('ResultPage — Finding expand/collapse', () => {
+  it('expands the first Finding by default and keeps the rest collapsed', () => {
+    const evaluation = buildEvaluation()
+    renderEvaluationSubmit(evaluation)
+
+    const [first, second] = evaluation.findings
+    const firstDetails = screen.getByText(first.criterionName).closest('details')
+    const secondDetails = screen.getByText(second.criterionName).closest('details')
+
+    expect(firstDetails).toHaveAttribute('open')
+    expect(secondDetails).not.toHaveAttribute('open')
+  })
+
+  it('lets an Educator expand and collapse a Finding independently', async () => {
+    const evaluation = buildEvaluation()
+    const user = userEvent.setup()
+    renderEvaluationSubmit(evaluation)
+
+    const second = evaluation.findings[1]
+    const secondSummary = screen.getByText(second.criterionName)
+    const secondDetails = secondSummary.closest('details')
+
+    await user.click(secondSummary)
+    expect(secondDetails).toHaveAttribute('open')
+
+    await user.click(secondSummary)
+    expect(secondDetails).not.toHaveAttribute('open')
+  })
 })
 
 describe('ResultPage — reload / direct link (no router state)', () => {
@@ -106,6 +147,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
     const advisoryNote = screen.getByText(/vejledende/i)
     expect(advisoryNote.textContent).toMatch(/ikke en endelig karakter/i)
     expect(screen.queryByText(/^Karakter$/)).not.toBeInTheDocument()
+    expect(screen.queryByTestId('submission-panel')).not.toBeInTheDocument()
   })
 
   it('shows the Label saved at upload time for a fetched Evaluation', async () => {

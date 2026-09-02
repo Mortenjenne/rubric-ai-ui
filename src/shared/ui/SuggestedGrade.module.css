@@ -1,0 +1,20 @@
+.card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.value {
+  font-family: var(--heading);
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: var(--text-h);
+  line-height: 1;
+}
+
+.advisoryNote {
+  margin-top: 0.75rem;
+  font-style: normal;
+  color: var(--text);
+}

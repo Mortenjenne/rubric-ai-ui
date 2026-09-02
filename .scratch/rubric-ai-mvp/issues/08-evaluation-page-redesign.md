@@ -21,19 +21,19 @@ no-Retry, no-button behavior, just restyled.
 
 **Status:** ready-for-agent
 
-- [ ] Visiting `/evaluations/:evaluationId` via History, a direct link, or a reload renders the
+- [x] Visiting `/evaluations/:evaluationId` via History, a direct link, or a reload renders the
       two-column layout with no Submission panel — never an empty or broken one
-- [ ] Landing on `/evaluations/:evaluationId` immediately after a successful submission renders
+- [x] Landing on `/evaluations/:evaluationId` immediately after a successful submission renders
       the three-column variant, with the just-submitted Submission text visible
-- [ ] Each Finding can be expanded and collapsed independently; the first Finding is expanded by
+- [x] Each Finding can be expanded and collapsed independently; the first Finding is expanded by
       default on load
-- [ ] The Suggested grade always renders with its advisory qualifier; Level always renders as
+- [x] The Suggested grade always renders with its advisory qualifier; Level always renders as
       neutral text, never a number, percentage, star rating, or ranked color
-- [ ] Evidence quotes are visually distinguished from other Finding text (e.g. quotation styling)
-- [ ] The loading, not-found, and fetch-error states render with the new visual style; the
+- [x] Evidence quotes are visually distinguished from other Finding text (e.g. quotation styling)
+- [x] The loading, not-found, and fetch-error states render with the new visual style; the
       not-found state still has no Retry button and no "back to History" action
-- [ ] All existing `ResultPage` tests (both entry paths, loading, all fetch-failure shapes) keep
+- [x] All existing `ResultPage` tests (both entry paths, loading, all fetch-failure shapes) keep
       passing; new tests cover Finding expand/collapse behavior
-- [ ] Visible copy is Danish, sourced from the centralized strings module from ticket 06
+- [x] Visible copy is Danish, sourced from the centralized strings module from ticket 06
 
 ## Comments
