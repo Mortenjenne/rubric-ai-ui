@@ -21,14 +21,14 @@ describe('App shell', () => {
     const user = userEvent.setup()
     renderApp()
 
-    expect(screen.getByRole('link', { name: 'Upload' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'History' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Upload' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Indlevering' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Historik' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Indlevering' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('link', { name: 'History' }))
-    expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument()
+    await user.click(screen.getByRole('link', { name: 'Historik' }))
+    expect(screen.getByRole('heading', { name: 'Historik' })).toBeInTheDocument()
 
-    await user.click(screen.getByRole('link', { name: 'Upload' }))
-    expect(screen.getByRole('heading', { name: 'Upload' })).toBeInTheDocument()
+    await user.click(screen.getByRole('link', { name: 'Indlevering' }))
+    expect(screen.getByRole('heading', { name: 'Indlevering' })).toBeInTheDocument()
   })
 })

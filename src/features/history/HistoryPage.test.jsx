@@ -39,7 +39,7 @@ describe('HistoryPage', () => {
 
     renderHistory()
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument()
+    expect(screen.getByText(/indlæser/i)).toBeInTheDocument()
 
     await waitFor(() => expect(screen.getByText(newest.createdAt)).toBeInTheDocument())
     expect(screen.getByText(oldest.createdAt)).toBeInTheDocument()
@@ -51,7 +51,7 @@ describe('HistoryPage', () => {
 
     expect(screen.getByText('12')).toBeInTheDocument()
     expect(screen.getByText('7')).toBeInTheDocument()
-    expect(screen.getAllByText(/advisory/i)).toHaveLength(2)
+    expect(screen.getAllByText(/vejledende/i)).toHaveLength(2)
   })
 
   it('shows the saved Label for a row when present, and a reasonable fallback when absent', async () => {
@@ -75,7 +75,7 @@ describe('HistoryPage', () => {
 
     renderHistory()
 
-    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText(/indlæser/i)).not.toBeInTheDocument())
     expect(screen.queryAllByRole('listitem')).toHaveLength(0)
   })
 
@@ -114,7 +114,7 @@ describe('HistoryPage', () => {
     renderHistory()
 
     const errorBox = await screen.findByRole('alert')
-    await user.click(screen.getByRole('button', { name: /retry/i }))
+    await user.click(screen.getByRole('button', { name: /prøv igen/i }))
 
     await waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(1))
     expect(errorBox).not.toBeInTheDocument()

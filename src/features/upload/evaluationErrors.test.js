@@ -14,7 +14,7 @@ describe('getEvaluationErrorCopy', () => {
   it('marks configuration_error as not retryable and framed as a problem to report', () => {
     const copy = getEvaluationErrorCopy('configuration_error')
     expect(copy.retryable).toBe(false)
-    expect(copy.message).toMatch(/report/i)
+    expect(copy.message).toMatch(/kontakt/i)
   })
 
   it('gives every known code distinct copy', () => {

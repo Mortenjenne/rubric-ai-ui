@@ -53,9 +53,9 @@ describe('ResultPage', () => {
       expect(finding.level).toMatch(/Mangelfuldt|Acceptabelt|Tilfredsstillende|Udmærket/)
     }
 
-    const advisoryNote = screen.getByText(/advisory/i)
-    expect(advisoryNote.textContent).toMatch(/not a decided grade/i)
-    expect(screen.queryByText(/final grade/i)).not.toBeInTheDocument()
+    const advisoryNote = screen.getByText(/vejledende/i)
+    expect(advisoryNote.textContent).toMatch(/ikke en endelig karakter/i)
+    expect(screen.queryByText(/^Karakter$/)).not.toBeInTheDocument()
   })
 
   it('shows the Label saved at upload time, keyed by evaluationId', () => {
@@ -72,7 +72,7 @@ describe('ResultPage', () => {
 
     renderEvaluationSubmit(evaluation)
 
-    expect(screen.queryByText(/^Label:/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/^Mærkat:/)).not.toBeInTheDocument()
   })
 })
 
@@ -88,7 +88,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
 
     renderEvaluationAtUrl('eval-fetched')
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument()
+    expect(screen.getByText(/indlæser/i)).toBeInTheDocument()
 
     await waitFor(() => expectEvaluationLanded(evaluation))
   })
@@ -103,9 +103,9 @@ describe('ResultPage — reload / direct link (no router state)', () => {
 
     await waitFor(() => expectEvaluationLanded(evaluation))
 
-    const advisoryNote = screen.getByText(/advisory/i)
-    expect(advisoryNote.textContent).toMatch(/not a decided grade/i)
-    expect(screen.queryByText(/final grade/i)).not.toBeInTheDocument()
+    const advisoryNote = screen.getByText(/vejledende/i)
+    expect(advisoryNote.textContent).toMatch(/ikke en endelig karakter/i)
+    expect(screen.queryByText(/^Karakter$/)).not.toBeInTheDocument()
   })
 
   it('shows the Label saved at upload time for a fetched Evaluation', async () => {
@@ -135,7 +135,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
     renderEvaluationAtUrl('eval-missing')
 
     const errorBox = await screen.findByRole('alert')
-    expect(errorBox).toHaveTextContent(/no evaluation/i)
+    expect(errorBox).toHaveTextContent(/ingen vurdering/i)
     expect(within(errorBox).queryByRole('button')).not.toBeInTheDocument()
   })
 
@@ -152,7 +152,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
     renderEvaluationAtUrl('not-a-uuid')
 
     const errorBox = await screen.findByRole('alert')
-    expect(errorBox).toHaveTextContent(/no evaluation/i)
+    expect(errorBox).toHaveTextContent(/ingen vurdering/i)
     expect(within(errorBox).queryByRole('button')).not.toBeInTheDocument()
   })
 
@@ -172,10 +172,10 @@ describe('ResultPage — reload / direct link (no router state)', () => {
     renderEvaluationAtUrl('eval-retry')
 
     const errorBox = await screen.findByRole('alert')
-    await user.click(within(errorBox).getByRole('button', { name: /retry/i }))
+    await user.click(within(errorBox).getByRole('button', { name: /prøv igen/i }))
 
     await waitFor(() =>
-      expect(screen.getByText(/advisory/i)).toBeInTheDocument(),
+      expect(screen.getByText(/vejledende/i)).toBeInTheDocument(),
     )
     expect(requestCount).toBe(2)
   })

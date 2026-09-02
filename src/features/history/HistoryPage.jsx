@@ -3,6 +3,7 @@ import { getLabel } from '../../shared/storage/labels'
 import { useEvaluations } from './useEvaluations'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
 import { SuggestedGrade } from '../../shared/ui/SuggestedGrade'
+import { strings } from '../../shared/i18n/strings'
 
 function HistoryRow({ evaluation }) {
   const label = getLabel(evaluation.evaluationId)
@@ -11,7 +12,7 @@ function HistoryRow({ evaluation }) {
     <li>
       <Link to={`/evaluations/${evaluation.evaluationId}`}>
         <time dateTime={evaluation.createdAt}>{evaluation.createdAt}</time>
-        <p>{label ?? 'No label saved'}</p>
+        <p>{label ?? strings.history.noLabel}</p>
         <SuggestedGrade grade={evaluation.suggestedGrade} />
       </Link>
     </li>
@@ -23,19 +24,19 @@ export function HistoryPage() {
 
   return (
     <section>
-      <h1>History</h1>
+      <h1>{strings.history.heading}</h1>
 
-      {isPending && <p role="status">Loading history…</p>}
+      {isPending && <p role="status">{strings.history.loading}</p>}
 
       {isError && (
         <ErrorBox
-          message="Evaluation history couldn't be loaded. You can try again."
-          actionLabel="Retry"
+          message={strings.history.loadError}
+          actionLabel={strings.common.retry}
           onAction={refetch}
         />
       )}
 
-      {evaluations && evaluations.length === 0 && <p>No Evaluations yet.</p>}
+      {evaluations && evaluations.length === 0 && <p>{strings.history.empty}</p>}
 
       {evaluations && evaluations.length > 0 && (
         <ul>

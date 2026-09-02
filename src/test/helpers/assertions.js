@@ -12,7 +12,7 @@ export function expectEvaluationLanded(evaluation) {
   }
 
   expect(screen.getByText(evaluation.suggestedGrade.value)).toBeInTheDocument()
-  expect(screen.getByText(/advisory/i)).toBeInTheDocument()
+  expect(screen.getByText(/vejledende/i)).toBeInTheDocument()
 
   for (const question of evaluation.dialogueQuestions) {
     expect(screen.getByText(question)).toBeInTheDocument()

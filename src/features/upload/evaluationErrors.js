@@ -1,25 +1,26 @@
+import { strings } from '../../shared/i18n/strings'
+
 const ERROR_COPY = {
   invalid_model_output: {
-    message:
-      "The evaluation couldn't be completed because the model's response couldn't be trusted. You can try again.",
+    message: strings.errors.invalidModelOutput,
     retryable: true,
   },
   rate_limited: {
-    message: 'The AI provider is rate-limiting requests right now. Try again in a moment.',
+    message: strings.errors.rateLimited,
     retryable: true,
   },
   upstream_unavailable: {
-    message: 'The AI provider is currently unreachable. Try again once it recovers.',
+    message: strings.errors.upstreamUnavailable,
     retryable: true,
   },
   configuration_error: {
-    message: "There's a configuration problem with this service. Please report it — retrying won't fix it.",
+    message: strings.errors.configurationError,
     retryable: false,
   },
 }
 
 const DEFAULT_ERROR_COPY = {
-  message: 'Something went wrong while evaluating this submission. You can try again.',
+  message: strings.errors.generic,
   retryable: true,
 }
 

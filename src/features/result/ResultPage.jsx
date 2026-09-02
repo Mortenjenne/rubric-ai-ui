@@ -3,6 +3,7 @@ import { getLabel } from '../../shared/storage/labels'
 import { useEvaluation } from './useEvaluation'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
 import { SuggestedGrade } from '../../shared/ui/SuggestedGrade'
+import { strings } from '../../shared/i18n/strings'
 
 function ListSection({ title, items }) {
   return (
@@ -22,29 +23,33 @@ function EvaluationView({ evaluation }) {
 
   return (
     <>
-      {label && <p>Label: {label}</p>}
+      {label && (
+        <p>
+          {strings.evaluation.labelPrefix}: {label}
+        </p>
+      )}
 
       <p>{evaluation.overallAssessment}</p>
 
       <section>
-        <h2>Suggested grade</h2>
+        <h2>{strings.evaluation.suggestedGradeHeading}</h2>
         <SuggestedGrade grade={evaluation.suggestedGrade} />
       </section>
 
       <section>
-        <h2>Findings</h2>
+        <h2>{strings.evaluation.findingsHeading}</h2>
         {evaluation.findings.map((finding) => (
           <article key={finding.criterion}>
             <h3>{finding.criterionName}</h3>
             <p>
-              Level: <strong>{finding.level}</strong>
+              {strings.evaluation.levelPrefix}: <strong>{finding.level}</strong>
             </p>
 
-            <ListSection title="Strengths" items={finding.strengths} />
-            <ListSection title="Weaknesses" items={finding.weaknesses} />
-            <ListSection title="Improvements" items={finding.improvements} />
+            <ListSection title={strings.evaluation.strengths} items={finding.strengths} />
+            <ListSection title={strings.evaluation.weaknesses} items={finding.weaknesses} />
+            <ListSection title={strings.evaluation.improvements} items={finding.improvements} />
 
-            <h4>Evidence</h4>
+            <h4>{strings.evaluation.evidence}</h4>
             <ul>
               {finding.evidence.map((item, index) => (
                 <li key={index}>&ldquo;{item}&rdquo;</li>
@@ -55,7 +60,7 @@ function EvaluationView({ evaluation }) {
       </section>
 
       <section>
-        <h2>Dialogue questions</h2>
+        <h2>{strings.evaluation.dialogueQuestionsHeading}</h2>
         <ul>
           {evaluation.dialogueQuestions.map((question, index) => (
             <li key={index}>{question}</li>
@@ -87,18 +92,18 @@ export function ResultPage() {
 
   return (
     <section>
-      <h1>Evaluation</h1>
+      <h1>{strings.evaluation.heading}</h1>
 
-      {isFetchPath && isPending && <p role="status">Loading evaluation…</p>}
+      {isFetchPath && isPending && <p role="status">{strings.evaluation.loading}</p>}
 
       {isFetchPath && isError && isUnresolvableId && (
-        <ErrorBox message={`No evaluation exists with id ${evaluationId}.`} />
+        <ErrorBox message={strings.evaluation.notFound(evaluationId)} />
       )}
 
       {isFetchPath && isError && !isUnresolvableId && (
         <ErrorBox
-          message="This evaluation couldn't be loaded. You can try again."
-          actionLabel="Retry"
+          message={strings.evaluation.loadError}
+          actionLabel={strings.common.retry}
           onAction={refetch}
         />
       )}

@@ -44,19 +44,19 @@ describe('Upload flow', () => {
     renderApp()
 
     await user.type(
-      screen.getByLabelText(/report text/i),
+      screen.getByLabelText(/indleveringstekst/i),
       'Jeg brugte C# og React til at bygge en løsning.',
     )
-    await user.type(screen.getByLabelText(/label/i), 'Anna')
-    await user.click(screen.getByRole('button', { name: /submit/i }))
+    await user.type(screen.getByLabelText(/mærkat/i), 'Anna')
+    await user.click(screen.getByRole('button', { name: /indsend/i }))
 
-    expect(screen.getByRole('button', { name: /evaluating/i })).toBeDisabled()
-    expect(screen.getByText(/20 to 90 seconds/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /vurderer/i })).toBeDisabled()
+    expect(screen.getByText(/20 til 90 sekunder/i)).toBeInTheDocument()
 
     deferred.resolve()
 
     await waitFor(() =>
-      expect(screen.getByRole('heading', { name: 'Evaluation' })).toBeInTheDocument(),
+      expect(screen.getByRole('heading', { name: 'Vurdering' })).toBeInTheDocument(),
     )
 
     expectEvaluationLanded(evaluation)
@@ -73,10 +73,10 @@ describe('Upload flow', () => {
     const file = new File(['Report text from a file.'], 'report.txt', {
       type: 'text/plain',
     })
-    await user.upload(screen.getByLabelText(/upload a \.md or \.txt file/i), file)
+    await user.upload(screen.getByLabelText(/vælg en \.md- eller \.txt-fil/i), file)
 
     await waitFor(() =>
-      expect(screen.getByLabelText(/report text/i)).toHaveValue('Report text from a file.'),
+      expect(screen.getByLabelText(/indleveringstekst/i)).toHaveValue('Report text from a file.'),
     )
   })
 
@@ -92,15 +92,15 @@ describe('Upload flow', () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.type(screen.getByLabelText(/report text/i), '   ')
-    const submitButton = screen.getByRole('button', { name: /submit/i })
+    await user.type(screen.getByLabelText(/indleveringstekst/i), '   ')
+    const submitButton = screen.getByRole('button', { name: /indsend/i })
 
     expect(submitButton).toBeDisabled()
 
     await user.click(submitButton)
 
     expect(requestCount).toBe(0)
-    expect(screen.getByRole('heading', { name: 'Upload' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Indlevering' })).toBeInTheDocument()
   })
 
   it('warns before navigating away or reloading while a submission is in flight', async () => {
@@ -115,8 +115,8 @@ describe('Upload flow', () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.type(screen.getByLabelText(/report text/i), 'Some report text.')
-    await user.click(screen.getByRole('button', { name: /submit/i }))
+    await user.type(screen.getByLabelText(/indleveringstekst/i), 'Some report text.')
+    await user.click(screen.getByRole('button', { name: /indsend/i }))
 
     const event = new Event('beforeunload', { cancelable: true })
     const preventDefaultSpy = vi.spyOn(event, 'preventDefault')
@@ -126,7 +126,7 @@ describe('Upload flow', () => {
 
     deferred.resolve()
     await waitFor(() =>
-      expect(screen.getByRole('heading', { name: 'Evaluation' })).toBeInTheDocument(),
+      expect(screen.getByRole('heading', { name: 'Vurdering' })).toBeInTheDocument(),
     )
   })
 
@@ -152,22 +152,22 @@ describe('Upload flow', () => {
       const user = userEvent.setup()
       renderApp()
 
-      await user.type(screen.getByLabelText(/report text/i), 'Some submission text.')
-      await user.type(screen.getByLabelText(/label/i), 'Anna')
-      await user.click(screen.getByRole('button', { name: /submit/i }))
+      await user.type(screen.getByLabelText(/indleveringstekst/i), 'Some submission text.')
+      await user.type(screen.getByLabelText(/mærkat/i), 'Anna')
+      await user.click(screen.getByRole('button', { name: /indsend/i }))
 
       const errorBox = await screen.findByRole('alert')
       expect(errorBox).toHaveTextContent(getEvaluationErrorCopy(code).message)
       expect(errorBox).not.toHaveTextContent('raw server detail')
       expect(requestBodies).toEqual(['Some submission text.'])
 
-      expect(screen.getByLabelText(/report text/i)).not.toBeDisabled()
-      expect(screen.getByLabelText(/label/i)).not.toBeDisabled()
+      expect(screen.getByLabelText(/indleveringstekst/i)).not.toBeDisabled()
+      expect(screen.getByLabelText(/mærkat/i)).not.toBeDisabled()
 
-      await user.click(within(errorBox).getByRole('button', { name: /retry/i }))
+      await user.click(within(errorBox).getByRole('button', { name: /prøv igen/i }))
 
       await waitFor(() =>
-        expect(screen.getByRole('heading', { name: 'Evaluation' })).toBeInTheDocument(),
+        expect(screen.getByRole('heading', { name: 'Vurdering' })).toBeInTheDocument(),
       )
       expect(requestBodies).toEqual(['Some submission text.', 'Some submission text.'])
     })
@@ -186,15 +186,15 @@ describe('Upload flow', () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.type(screen.getByLabelText(/report text/i), 'Some submission text.')
-    await user.click(screen.getByRole('button', { name: /submit/i }))
+    await user.type(screen.getByLabelText(/indleveringstekst/i), 'Some submission text.')
+    await user.click(screen.getByRole('button', { name: /indsend/i }))
 
     const errorBox = await screen.findByRole('alert')
     expect(errorBox).toHaveTextContent(getEvaluationErrorCopy('configuration_error').message)
-    expect(errorBox).toHaveTextContent(/report/i)
+    expect(errorBox).toHaveTextContent(/kontakt/i)
     expect(within(errorBox).queryByRole('button')).not.toBeInTheDocument()
 
-    expect(screen.getByLabelText(/report text/i)).not.toBeDisabled()
-    expect(screen.getByLabelText(/label/i)).not.toBeDisabled()
+    expect(screen.getByLabelText(/indleveringstekst/i)).not.toBeDisabled()
+    expect(screen.getByLabelText(/mærkat/i)).not.toBeDisabled()
   })
 })

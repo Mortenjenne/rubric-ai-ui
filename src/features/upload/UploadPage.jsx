@@ -4,6 +4,7 @@ import { useCreateEvaluation } from './useCreateEvaluation'
 import { getEvaluationErrorCopy } from './evaluationErrors'
 import { saveLabel } from '../../shared/storage/labels'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
+import { strings } from '../../shared/i18n/strings'
 
 export function UploadPage() {
   const [submissionText, setSubmissionText] = useState('')
@@ -57,10 +58,10 @@ export function UploadPage() {
 
   return (
     <section>
-      <h1>Upload</h1>
+      <h1>{strings.upload.heading}</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="submission-text">Report text</label>
+          <label htmlFor="submission-text">{strings.upload.reportTextLabel}</label>
           <textarea
             id="submission-text"
             value={submissionText}
@@ -69,7 +70,7 @@ export function UploadPage() {
           />
         </div>
         <div>
-          <label htmlFor="submission-file">Or upload a .md or .txt file</label>
+          <label htmlFor="submission-file">{strings.upload.fileLabel}</label>
           <input
             id="submission-file"
             type="file"
@@ -79,7 +80,7 @@ export function UploadPage() {
           />
         </div>
         <div>
-          <label htmlFor="submission-label">Label (optional)</label>
+          <label htmlFor="submission-label">{strings.upload.labelLabel}</label>
           <input
             id="submission-label"
             type="text"
@@ -89,18 +90,13 @@ export function UploadPage() {
           />
         </div>
         <button type="submit" disabled={!canSubmit}>
-          {isPending ? 'Evaluating…' : 'Submit'}
+          {isPending ? strings.upload.submitting : strings.upload.submit}
         </button>
-        {isPending && (
-          <p role="status">
-            Evaluating the submission — this takes 20 to 90 seconds. Don&rsquo;t close or reload
-            this page.
-          </p>
-        )}
+        {isPending && <p role="status">{strings.upload.progressStatus}</p>}
         {errorCopy && (
           <ErrorBox
             message={errorCopy.message}
-            actionLabel={errorCopy.retryable ? 'Retry' : undefined}
+            actionLabel={errorCopy.retryable ? strings.common.retry : undefined}
             onAction={errorCopy.retryable ? handleRetry : undefined}
           />
         )}
