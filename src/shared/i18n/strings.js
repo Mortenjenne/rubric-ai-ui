@@ -10,6 +10,10 @@ export const strings = {
   common: {
     retry: 'Prøv igen',
   },
+  theme: {
+    switchToLight: 'Skift til lyst tema',
+    switchToDark: 'Skift til mørkt tema',
+  },
   upload: {
     heading: 'Indlevering',
     reportTextLabel: 'Indleveringstekst',

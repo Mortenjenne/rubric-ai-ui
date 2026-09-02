@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { Clock, Plus, User } from 'react-feather'
 import { strings } from '../i18n/strings'
+import { ThemeToggle } from './ThemeToggle'
 import styles from './Sidebar.module.css'
 
 function linkClassName({ isActive }) {
@@ -18,8 +19,11 @@ export function Sidebar() {
           <Clock aria-hidden="true" size={16} /> {strings.sidebar.history}
         </NavLink>
       </nav>
-      <div className={styles.identity}>
-        <User aria-hidden="true" size={16} /> {strings.sidebar.identity}
+      <div className={styles.footer}>
+        <div className={styles.identity}>
+          <User aria-hidden="true" size={16} /> {strings.sidebar.identity}
+        </div>
+        <ThemeToggle />
       </div>
     </aside>
   )
