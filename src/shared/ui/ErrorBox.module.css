@@ -11,6 +11,22 @@
   margin: 0 0 0.5rem;
 }
 
+.message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
 .box button {
   margin: 0;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }

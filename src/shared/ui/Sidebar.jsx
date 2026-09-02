@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { Clock, Plus, User } from 'react-feather'
 import { strings } from '../i18n/strings'
 import styles from './Sidebar.module.css'
 
@@ -11,14 +12,14 @@ export function Sidebar() {
     <aside className={styles.sidebar}>
       <nav className={styles.nav} aria-label={strings.sidebar.ariaLabel}>
         <NavLink to="/" end className={linkClassName}>
-          <span aria-hidden="true">+</span> {strings.sidebar.newSubmission}
+          <Plus aria-hidden="true" size={16} /> {strings.sidebar.newSubmission}
         </NavLink>
         <NavLink to="/history" className={linkClassName}>
-          {strings.sidebar.history}
+          <Clock aria-hidden="true" size={16} /> {strings.sidebar.history}
         </NavLink>
       </nav>
       <div className={styles.identity}>
-        <span aria-hidden="true">●</span> {strings.sidebar.identity}
+        <User aria-hidden="true" size={16} /> {strings.sidebar.identity}
       </div>
     </aside>
   )

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
+import { Loader } from 'react-feather'
 import { getLabel } from '../../shared/storage/labels'
 import { consumeSubmissionPanelOnce } from '../../shared/storage/submissionPanel'
 import { useEvaluation } from './useEvaluation'
@@ -48,9 +49,7 @@ export function ResultPage() {
 
       {isFetchPath && isPending && (
         <div className={styles.stateContainer} role="status">
-          <span aria-hidden="true" className={styles.spinnerGlyph}>
-            ◌
-          </span>
+          <Loader aria-hidden="true" size={28} className={`${styles.spinnerGlyph} spin-icon`} />
           <p className={styles.stateHeading}>{strings.evaluation.loading}</p>
           <p className={styles.stateBody}>{strings.evaluation.loadingBody}</p>
         </div>

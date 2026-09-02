@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Paperclip } from 'react-feather'
 import { useCreateEvaluation } from './useCreateEvaluation'
 import { getEvaluationErrorCopy } from './evaluationErrors'
 import { saveLabel } from '../../shared/storage/labels'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
 import { strings } from '../../shared/i18n/strings'
+import styles from './UploadPage.module.css'
 
 export function UploadPage() {
   const [submissionText, setSubmissionText] = useState('')
@@ -70,7 +72,9 @@ export function UploadPage() {
           />
         </div>
         <div>
-          <label htmlFor="submission-file">{strings.upload.fileLabel}</label>
+          <label htmlFor="submission-file" className={styles.fileLabel}>
+            <Paperclip aria-hidden="true" size={16} /> {strings.upload.fileLabel}
+          </label>
           <input
             id="submission-file"
             type="file"

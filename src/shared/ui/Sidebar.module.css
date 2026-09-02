@@ -16,10 +16,17 @@
 }
 
 .link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: inherit;
   text-decoration: none;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
+}
+
+.link svg {
+  flex-shrink: 0;
 }
 
 .link:hover {
@@ -32,8 +39,15 @@
 }
 
 .identity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: var(--text);
   padding: 0.5rem 0.75rem;
   border-top: 1px solid var(--border);
   padding-top: 1rem;
+}
+
+.identity svg {
+  flex-shrink: 0;
 }
