@@ -120,4 +120,54 @@ describe('HistoryPage', () => {
     expect(errorBox).not.toBeInTheDocument()
     expect(requestCount).toBe(2)
   })
+
+  describe('search by Label', () => {
+    async function renderWithLabeledRows() {
+      const anna = buildEvaluationSummary({ evaluationId: 'eval-anna' })
+      const bo = buildEvaluationSummary({ evaluationId: 'eval-bo' })
+      const noLabel = buildEvaluationSummary({ evaluationId: 'eval-no-label' })
+      localStorage.setItem(
+        'rubric-ai:labels',
+        JSON.stringify({ 'eval-anna': 'Anna Andersen', 'eval-bo': 'Bo Berg' }),
+      )
+      server.use(http.get('*/api/evaluations', () => HttpResponse.json([anna, bo, noLabel])))
+
+      const user = userEvent.setup()
+      renderHistory()
+      await waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(3))
+
+      return { user }
+    }
+
+    it('filters visible rows to those whose Label contains the typed text, case-insensitively', async () => {
+      const { user } = await renderWithLabeledRows()
+
+      await user.type(screen.getByRole('searchbox'), 'anna')
+
+      const rows = screen.getAllByRole('listitem')
+      expect(rows).toHaveLength(1)
+      expect(rows[0]).toHaveTextContent('Anna Andersen')
+    })
+
+    it('shows all rows again once the search box is cleared', async () => {
+      const { user } = await renderWithLabeledRows()
+
+      const searchBox = screen.getByRole('searchbox')
+      await user.type(searchBox, 'anna')
+      expect(screen.getAllByRole('listitem')).toHaveLength(1)
+
+      await user.clear(searchBox)
+      expect(screen.getAllByRole('listitem')).toHaveLength(3)
+    })
+
+    it('excludes rows with no saved Label when a search term is typed', async () => {
+      const { user } = await renderWithLabeledRows()
+
+      await user.type(screen.getByRole('searchbox'), 'b')
+
+      const rows = screen.getAllByRole('listitem')
+      expect(rows).toHaveLength(1)
+      expect(rows[0]).toHaveTextContent('Bo Berg')
+    })
+  })
 })
