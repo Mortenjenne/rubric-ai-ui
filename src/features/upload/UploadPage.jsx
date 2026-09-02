@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreateEvaluation } from './useCreateEvaluation'
+import { getEvaluationErrorCopy } from './evaluationErrors'
 import { saveLabel } from '../../shared/storage/labels'
+import { ErrorBox } from '../../shared/ui/ErrorBox'
 
 export function UploadPage() {
   const [submissionText, setSubmissionText] = useState('')
   const [label, setLabel] = useState('')
   const navigate = useNavigate()
-  const { mutate, isPending } = useCreateEvaluation()
+  const { mutate, isPending, isError, error } = useCreateEvaluation()
 
   useEffect(() => {
     if (!isPending) return undefined
@@ -29,11 +31,8 @@ export function UploadPage() {
     event.target.value = ''
   }
 
-  function handleSubmit(event) {
-    event.preventDefault()
-    if (!submissionText.trim() || isPending) return
-
-    mutate(submissionText, {
+  function submitEvaluation(text) {
+    mutate(text, {
       onSuccess: (evaluation) => {
         saveLabel(evaluation.evaluationId, label)
         navigate(`/evaluations/${evaluation.evaluationId}`, {
@@ -43,7 +42,18 @@ export function UploadPage() {
     })
   }
 
+  function handleSubmit(event) {
+    event.preventDefault()
+    if (!submissionText.trim() || isPending) return
+    submitEvaluation(submissionText)
+  }
+
+  function handleRetry() {
+    submitEvaluation(submissionText)
+  }
+
   const canSubmit = submissionText.trim().length > 0 && !isPending
+  const errorCopy = isError ? getEvaluationErrorCopy(error?.code) : null
 
   return (
     <section>
@@ -86,6 +96,13 @@ export function UploadPage() {
             Evaluating the submission — this takes 20 to 90 seconds. Don&rsquo;t close or reload
             this page.
           </p>
+        )}
+        {errorCopy && (
+          <ErrorBox
+            message={errorCopy.message}
+            actionLabel={errorCopy.retryable ? 'Retry' : undefined}
+            onAction={errorCopy.retryable ? handleRetry : undefined}
+          />
         )}
       </form>
     </section>

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -8,6 +8,7 @@ import App from '../../App'
 import { server } from '../../test/mocks/server'
 import { buildEvaluation } from '../../test/fixtures/evaluation'
 import { expectResultLanded } from '../../test/helpers/assertions'
+import { getEvaluationErrorCopy } from './evaluationErrors'
 
 function renderApp() {
   const client = new QueryClient()
@@ -127,5 +128,73 @@ describe('Upload flow', () => {
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
     )
+  })
+
+  describe.each([
+    ['invalid_model_output', 422],
+    ['rate_limited', 429],
+    ['upstream_unavailable', 503],
+  ])('when the evaluation fails with %s', (code, status) => {
+    it('shows a non-blocking inline error whose Retry resubmits the same text', async () => {
+      const evaluation = buildEvaluation()
+      const requestBodies = []
+      server.use(
+        http.post('*/api/evaluations', async ({ request }) => {
+          const body = await request.json()
+          requestBodies.push(body.submissionText)
+          if (requestBodies.length === 1) {
+            return HttpResponse.json({ code, message: 'raw server detail' }, { status })
+          }
+          return HttpResponse.json(evaluation)
+        }),
+      )
+
+      const user = userEvent.setup()
+      renderApp()
+
+      await user.type(screen.getByLabelText(/report text/i), 'Some submission text.')
+      await user.type(screen.getByLabelText(/label/i), 'Anna')
+      await user.click(screen.getByRole('button', { name: /submit/i }))
+
+      const errorBox = await screen.findByRole('alert')
+      expect(errorBox).toHaveTextContent(getEvaluationErrorCopy(code).message)
+      expect(errorBox).not.toHaveTextContent('raw server detail')
+      expect(requestBodies).toEqual(['Some submission text.'])
+
+      expect(screen.getByLabelText(/report text/i)).not.toBeDisabled()
+      expect(screen.getByLabelText(/label/i)).not.toBeDisabled()
+
+      await user.click(within(errorBox).getByRole('button', { name: /retry/i }))
+
+      await waitFor(() =>
+        expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
+      )
+      expect(requestBodies).toEqual(['Some submission text.', 'Some submission text.'])
+    })
+  })
+
+  it('shows configuration_error as a problem to report, with no Retry control', async () => {
+    server.use(
+      http.post('*/api/evaluations', () =>
+        HttpResponse.json(
+          { code: 'configuration_error', message: 'raw server detail' },
+          { status: 500 },
+        ),
+      ),
+    )
+
+    const user = userEvent.setup()
+    renderApp()
+
+    await user.type(screen.getByLabelText(/report text/i), 'Some submission text.')
+    await user.click(screen.getByRole('button', { name: /submit/i }))
+
+    const errorBox = await screen.findByRole('alert')
+    expect(errorBox).toHaveTextContent(getEvaluationErrorCopy('configuration_error').message)
+    expect(errorBox).toHaveTextContent(/report/i)
+    expect(within(errorBox).queryByRole('button')).not.toBeInTheDocument()
+
+    expect(screen.getByLabelText(/report text/i)).not.toBeDisabled()
+    expect(screen.getByLabelText(/label/i)).not.toBeDisabled()
   })
 })
