@@ -22,18 +22,18 @@ function renderAt(initialEntry) {
   )
 }
 
-function renderResult(evaluation) {
+function renderEvaluationSubmit(evaluation) {
   return renderAt({ pathname: `/evaluations/${evaluation.evaluationId}`, state: { evaluation } })
 }
 
-function renderResultAtUrl(evaluationId) {
+function renderEvaluationAtUrl(evaluationId) {
   return renderAt(`/evaluations/${evaluationId}`)
 }
 
 describe('ResultPage', () => {
   it('renders the overall assessment, one Finding per Criterion, the advisory grade, and dialogue questions', () => {
     const evaluation = buildEvaluation()
-    renderResult(evaluation)
+    renderEvaluationSubmit(evaluation)
 
     expectEvaluationLanded(evaluation)
 
@@ -47,7 +47,7 @@ describe('ResultPage', () => {
 
   it('never renders a Level as a number, and never renders the Suggested grade as a decided mark', () => {
     const evaluation = buildEvaluation()
-    renderResult(evaluation)
+    renderEvaluationSubmit(evaluation)
 
     for (const finding of evaluation.findings) {
       expect(finding.level).toMatch(/Mangelfuldt|Acceptabelt|Tilfredsstillende|Udmærket/)
@@ -62,7 +62,7 @@ describe('ResultPage', () => {
     const evaluation = buildEvaluation({ evaluationId: 'eval-label-test' })
     localStorage.setItem('rubric-ai:labels', JSON.stringify({ 'eval-label-test': 'Anna' }))
 
-    renderResult(evaluation)
+    renderEvaluationSubmit(evaluation)
 
     expect(screen.getByText(/Anna/)).toBeInTheDocument()
   })
@@ -70,7 +70,7 @@ describe('ResultPage', () => {
   it('does not show a Label when none was saved for this evaluationId', () => {
     const evaluation = buildEvaluation({ evaluationId: 'eval-no-label' })
 
-    renderResult(evaluation)
+    renderEvaluationSubmit(evaluation)
 
     expect(screen.queryByText(/^Label:/)).not.toBeInTheDocument()
   })
@@ -86,20 +86,20 @@ describe('ResultPage — reload / direct link (no router state)', () => {
       }),
     )
 
-    renderResultAtUrl('eval-fetched')
+    renderEvaluationAtUrl('eval-fetched')
 
     expect(screen.getByText(/loading/i)).toBeInTheDocument()
 
     await waitFor(() => expectEvaluationLanded(evaluation))
   })
 
-  it('renders the same Result view for a direct link to a known id with no prior submission this session', async () => {
+  it('renders the same Evaluation view for a direct link to a known id with no prior submission this session', async () => {
     const evaluation = buildEvaluation({ evaluationId: 'eval-direct-link' })
     server.use(
       http.get('*/api/evaluations/:evaluationId', () => HttpResponse.json(evaluation)),
     )
 
-    renderResultAtUrl('eval-direct-link')
+    renderEvaluationAtUrl('eval-direct-link')
 
     await waitFor(() => expectEvaluationLanded(evaluation))
 
@@ -115,7 +115,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
       http.get('*/api/evaluations/:evaluationId', () => HttpResponse.json(evaluation)),
     )
 
-    renderResultAtUrl('eval-fetched-label')
+    renderEvaluationAtUrl('eval-fetched-label')
 
     await waitFor(() => expect(screen.getByText(/Anna/)).toBeInTheDocument())
   })
@@ -132,7 +132,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
       ),
     )
 
-    renderResultAtUrl('eval-missing')
+    renderEvaluationAtUrl('eval-missing')
 
     const errorBox = await screen.findByRole('alert')
     expect(errorBox).toHaveTextContent(/no evaluation/i)
@@ -149,7 +149,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
       ),
     )
 
-    renderResultAtUrl('not-a-uuid')
+    renderEvaluationAtUrl('not-a-uuid')
 
     const errorBox = await screen.findByRole('alert')
     expect(errorBox).toHaveTextContent(/no evaluation/i)
@@ -169,7 +169,7 @@ describe('ResultPage — reload / direct link (no router state)', () => {
     )
 
     const user = userEvent.setup()
-    renderResultAtUrl('eval-retry')
+    renderEvaluationAtUrl('eval-retry')
 
     const errorBox = await screen.findByRole('alert')
     await user.click(within(errorBox).getByRole('button', { name: /retry/i }))
