@@ -70,13 +70,16 @@ describe('HistoryPage', () => {
     expect(rows[1].textContent.trim().length).toBeGreaterThan(0)
   })
 
-  it('renders without breaking when there are no past Evaluations', async () => {
+  it('shows an explicit empty state with a way back to Ny indlevering when there are no past Evaluations', async () => {
     server.use(http.get('*/api/evaluations', () => HttpResponse.json([])))
 
     renderHistory()
 
     await waitFor(() => expect(screen.queryByText(/indlæser/i)).not.toBeInTheDocument())
     expect(screen.queryAllByRole('listitem')).toHaveLength(0)
+
+    expect(screen.getByText(/ingen vurderinger endnu/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Ny indlevering' })).toHaveAttribute('href', '/')
   })
 
   it('clicking a row navigates to that Evaluation\'s Result view', async () => {

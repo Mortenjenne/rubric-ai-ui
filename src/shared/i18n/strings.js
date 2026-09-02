@@ -28,7 +28,7 @@ export const strings = {
     heading: 'Historik',
     subheading: 'Tidligere vurderinger',
     loading: 'Indlæser vurderinger…',
-    loadError: 'Historik kunne ikke indlæses. Vi kunne ikke hente vurderingerne — prøv venligst igen.',
+    loadError: 'Historik kunne ikke indlæses. Du kan prøve igen.',
     emptyHeading: 'Ingen vurderinger endnu',
     emptyBody: 'Vurderinger vises her, når du har indsendt din første indlevering.',
     noLabel: 'Ingen mærkat',
@@ -36,7 +36,7 @@ export const strings = {
     columnCreated: 'Oprettet',
     columnGrade: 'Foreslået karakter',
     searchLabel: 'Søg på mærkat',
-    searchPlaceholder: 'Søg på mærkat...',
+    searchPlaceholder: 'Søg på mærkat…',
   },
   evaluation: {
     heading: 'Vurdering',

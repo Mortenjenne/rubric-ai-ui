@@ -111,13 +111,7 @@
   }
 }
 
-.stateContainer {
-  max-width: 28rem;
-  margin: 2rem auto 0;
-  padding: 2rem 1rem;
-  text-align: center;
-}
-
+.stateContainer,
 .emptyState {
   max-width: 28rem;
   margin: 2rem auto 0;
