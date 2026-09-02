@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { getLabel } from '../../shared/storage/labels'
+import { consumeSubmissionPanelOnce } from '../../shared/storage/submissionPanel'
 import { useEvaluation } from './useEvaluation'
 import { EvaluationColumn } from './EvaluationColumn'
 import { SubmissionPanel } from './SubmissionPanel'
@@ -9,19 +10,10 @@ import { SuggestedGrade } from '../../shared/ui/SuggestedGrade'
 import { strings } from '../../shared/i18n/strings'
 import styles from './ResultPage.module.css'
 
-// The browser preserves router state across a reload — history.state survives F5, unlike a
-// fresh navigation. The Submission text only ever exists in memory for the render immediately
-// after a successful submit (docs/design.md §9), so a per-evaluationId sessionStorage flag marks
-// it "already shown" the first time, ensuring a later reload of the same URL correctly falls
-// back to the two-column layout instead of resurrecting stale router state.
 function useShowSubmissionPanelOnce(evaluationId, hasSubmissionText) {
-  const [show] = useState(() => {
-    if (!hasSubmissionText) return false
-    const key = `rubric-ai:submission-shown:${evaluationId}`
-    if (sessionStorage.getItem(key)) return false
-    sessionStorage.setItem(key, '1')
-    return true
-  })
+  const [show] = useState(
+    () => hasSubmissionText && consumeSubmissionPanelOnce(evaluationId),
+  )
   return show
 }
 

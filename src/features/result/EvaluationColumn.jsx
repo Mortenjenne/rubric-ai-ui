@@ -1,4 +1,5 @@
 import { strings } from '../../shared/i18n/strings'
+import { EvaluationLabel } from '../../shared/ui/EvaluationLabel'
 import { Finding } from './Finding'
 import styles from './EvaluationColumn.module.css'
 
@@ -6,11 +7,7 @@ import styles from './EvaluationColumn.module.css'
 export function EvaluationColumn({ evaluation, label }) {
   return (
     <div className={styles.column}>
-      {label && (
-        <p className={styles.label}>
-          {strings.evaluation.labelPrefix}: {label}
-        </p>
-      )}
+      <EvaluationLabel label={label} />
 
       <section>
         <h2>{strings.evaluation.overallAssessmentHeading}</h2>

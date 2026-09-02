@@ -8,6 +8,7 @@ import styles from './SuggestedGrade.module.css'
 export function SuggestedGrade({ grade }) {
   return (
     <div className={styles.card}>
+      <h2 className={styles.heading}>{strings.evaluation.suggestedGradeHeading}</h2>
       <p className={styles.value}>{grade.value}</p>
       <p className={styles.advisoryNote}>({strings.suggestedGrade.advisoryNote})</p>
     </div>

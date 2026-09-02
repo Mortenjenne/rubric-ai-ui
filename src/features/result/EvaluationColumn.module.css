@@ -5,8 +5,3 @@
 .column section + section {
   margin-top: 1.5rem;
 }
-
-.label {
-  color: var(--text);
-  margin-bottom: 1rem;
-}
