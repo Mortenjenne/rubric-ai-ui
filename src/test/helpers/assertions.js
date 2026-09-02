@@ -1,9 +1,9 @@
 import { expect } from 'vitest'
 import { screen } from '@testing-library/react'
 
-/** Asserts the Result view landed on the given Evaluation: overall assessment, one Finding
+/** Asserts the Evaluation view landed on the given Evaluation: overall assessment, one Finding
  *  per Criterion (name + Level), the advisory Suggested grade, and the dialogue questions. */
-export function expectResultLanded(evaluation) {
+export function expectEvaluationLanded(evaluation) {
   expect(screen.getByText(evaluation.overallAssessment)).toBeInTheDocument()
 
   for (const finding of evaluation.findings) {

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { ResultPage } from './ResultPage'
 import { buildEvaluation } from '../../test/fixtures/evaluation'
-import { expectResultLanded } from '../../test/helpers/assertions'
+import { expectEvaluationLanded } from '../../test/helpers/assertions'
 
 function renderResult(evaluation) {
   return render(
@@ -24,7 +24,7 @@ describe('ResultPage', () => {
     const evaluation = buildEvaluation()
     renderResult(evaluation)
 
-    expectResultLanded(evaluation)
+    expectEvaluationLanded(evaluation)
 
     for (const finding of evaluation.findings) {
       expect(screen.getByText(finding.strengths[0])).toBeInTheDocument()

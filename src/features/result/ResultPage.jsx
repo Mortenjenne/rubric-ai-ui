@@ -22,7 +22,7 @@ export function ResultPage() {
   if (!evaluation) {
     return (
       <section>
-        <h1>Result</h1>
+        <h1>Evaluation</h1>
         <p>Evaluation {evaluationId}</p>
       </section>
     )
@@ -32,7 +32,7 @@ export function ResultPage() {
 
   return (
     <section>
-      <h1>Result</h1>
+      <h1>Evaluation</h1>
       {label && <p>Label: {label}</p>}
 
       <p>{evaluation.overallAssessment}</p>

@@ -7,7 +7,7 @@ import { http, HttpResponse } from 'msw'
 import App from '../../App'
 import { server } from '../../test/mocks/server'
 import { buildEvaluation } from '../../test/fixtures/evaluation'
-import { expectResultLanded } from '../../test/helpers/assertions'
+import { expectEvaluationLanded } from '../../test/helpers/assertions'
 import { getEvaluationErrorCopy } from './evaluationErrors'
 
 function renderApp() {
@@ -30,7 +30,7 @@ function createDeferred() {
 }
 
 describe('Upload flow', () => {
-  it('shows the in-progress state, then navigates to the Result view on success', async () => {
+  it('shows the in-progress state, then navigates to the Evaluation view on success', async () => {
     const evaluation = buildEvaluation({ evaluationId: 'eval-123' })
     const deferred = createDeferred()
     server.use(
@@ -56,10 +56,10 @@ describe('Upload flow', () => {
     deferred.resolve()
 
     await waitFor(() =>
-      expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
+      expect(screen.getByRole('heading', { name: 'Evaluation' })).toBeInTheDocument(),
     )
 
-    expectResultLanded(evaluation)
+    expectEvaluationLanded(evaluation)
 
     expect(JSON.parse(localStorage.getItem('rubric-ai:labels'))).toEqual({
       'eval-123': 'Anna',
@@ -126,7 +126,7 @@ describe('Upload flow', () => {
 
     deferred.resolve()
     await waitFor(() =>
-      expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
+      expect(screen.getByRole('heading', { name: 'Evaluation' })).toBeInTheDocument(),
     )
   })
 
@@ -167,7 +167,7 @@ describe('Upload flow', () => {
       await user.click(within(errorBox).getByRole('button', { name: /retry/i }))
 
       await waitFor(() =>
-        expect(screen.getByRole('heading', { name: 'Result' })).toBeInTheDocument(),
+        expect(screen.getByRole('heading', { name: 'Evaluation' })).toBeInTheDocument(),
       )
       expect(requestBodies).toEqual(['Some submission text.', 'Some submission text.'])
     })
