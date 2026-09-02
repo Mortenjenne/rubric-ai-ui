@@ -12,15 +12,15 @@ retry — every retry is an explicit click.
 
 **Status:** ready-for-agent
 
-- [ ] Mocking each of `invalid_model_output`, `rate_limited`, and `upstream_unavailable` shows an
+- [x] Mocking each of `invalid_model_output`, `rate_limited`, and `upstream_unavailable` shows an
       inline, non-blocking error box with distinct, plain-language copy and a visible Retry
       control for each
-- [ ] Clicking Retry resubmits the same text that was already in the form, without requiring the
+- [x] Clicking Retry resubmits the same text that was already in the form, without requiring the
       Educator to re-type or re-upload it
-- [ ] Mocking `configuration_error` shows an inline error box framed as a problem to report, with
+- [x] Mocking `configuration_error` shows an inline error box framed as a problem to report, with
       no Retry control
-- [ ] The rest of the Upload form (the textarea, the Label field) remains interactive while an
+- [x] The rest of the Upload form (the textarea, the Label field) remains interactive while an
       error box is showing
-- [ ] No error ever triggers a retry without an explicit click
+- [x] No error ever triggers a retry without an explicit click
 
 ## Comments
