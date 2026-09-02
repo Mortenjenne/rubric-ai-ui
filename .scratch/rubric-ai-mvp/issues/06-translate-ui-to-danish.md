@@ -24,18 +24,18 @@ Suggested grade must always render with its advisory qualifier, never as a bare 
 
 **Status:** ready-for-agent
 
-- [ ] Every string in the rendered UI across Upload, Evaluation, History, `Nav`, and `ErrorBox` is
+- [x] Every string in the rendered UI across Upload, Evaluation, History, `Nav`, and `ErrorBox` is
       Danish — no leftover English chrome anywhere in the app
-- [ ] All Danish UI copy is sourced from one centralized strings module, not hardcoded inline
+- [x] All Danish UI copy is sourced from one centralized strings module, not hardcoded inline
       literals repeated across components
-- [ ] Domain terms use the exact Danish UI labels recorded in `CONTEXT.md` (e.g. Suggested grade
+- [x] Domain terms use the exact Danish UI labels recorded in `CONTEXT.md` (e.g. Suggested grade
       renders as "Foreslået karakter" with its advisory qualifier, never bare "Karakter"; Level
       renders as "Niveau"; Evaluation never reads as "Bedømmelse")
-- [ ] The four `evaluationErrors.js` messages (`invalid_model_output`, `rate_limited`,
+- [x] The four `evaluationErrors.js` messages (`invalid_model_output`, `rate_limited`,
       `upstream_unavailable`, `configuration_error`) are rewritten in Danish, keeping their
       existing retryable/non-retryable behavior unchanged
-- [ ] Code identifiers, comments, and commit messages stay English — only user-facing copy changes
-- [ ] All existing tests are updated to assert against the new Danish copy (or against stable
+- [x] Code identifiers, comments, and commit messages stay English — only user-facing copy changes
+- [x] All existing tests are updated to assert against the new Danish copy (or against stable
       roles/structure rather than literal English strings) and the full suite passes
 
 ## Comments
