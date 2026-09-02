@@ -2,6 +2,7 @@ import { useLocation, useParams } from 'react-router-dom'
 import { getLabel } from '../../shared/storage/labels'
 import { useEvaluation } from './useEvaluation'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
+import { SuggestedGrade } from '../../shared/ui/SuggestedGrade'
 
 function ListSection({ title, items }) {
   return (
@@ -27,10 +28,7 @@ function EvaluationView({ evaluation }) {
 
       <section>
         <h2>Suggested grade</h2>
-        <p>
-          <strong>{evaluation.suggestedGrade.value}</strong>{' '}
-          <em>(advisory — a starting point, not a decided grade)</em>
-        </p>
+        <SuggestedGrade grade={evaluation.suggestedGrade} />
       </section>
 
       <section>

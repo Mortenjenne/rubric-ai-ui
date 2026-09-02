@@ -45,3 +45,21 @@ export function buildEvaluation(overrides = {}) {
     ...overrides,
   }
 }
+
+/** @param {object} [overrides] @returns {object} an Evaluation summary matching the
+ *  GET /api/evaluations row contract (docs/api/api.md) — no overallAssessment, findings or
+ *  dialogueQuestions. */
+export function buildEvaluationSummary(overrides = {}) {
+  return {
+    evaluationId: 'eval-1',
+    rubricVersion: 1,
+    provider: 'openai',
+    model: 'gpt-4o-mini',
+    createdAt: '2026-08-31T09:14:22.531Z',
+    suggestedGrade: {
+      value: '10',
+      advisory: true,
+    },
+    ...overrides,
+  }
+}
