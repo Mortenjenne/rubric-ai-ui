@@ -1,14 +1,14 @@
 .box {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
-  border: 1px solid #c00;
-  border-radius: 4px;
-  background: #fdecea;
-  color: #611a15;
+  border: 1px solid var(--danger-border);
+  border-radius: 8px;
+  background: var(--danger-bg);
+  color: var(--text-h);
 }
 
 .box p {
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 
 .message {
@@ -19,14 +19,28 @@
 
 .icon {
   flex-shrink: 0;
-}
-
-.box button {
-  margin: 0;
+  color: var(--danger);
 }
 
 .action {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--danger-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-h);
+  font: inherit;
+  cursor: pointer;
+}
+
+.action:hover {
+  background: var(--danger-bg);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
 }

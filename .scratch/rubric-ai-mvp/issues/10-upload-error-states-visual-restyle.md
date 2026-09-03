@@ -7,17 +7,25 @@ behaves while an error is visible.
 
 **Blocked by:** 06
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
-- [ ] All four error shapes (`invalid_model_output`, `rate_limited`, `upstream_unavailable`,
+- [x] All four error shapes (`invalid_model_output`, `rate_limited`, `upstream_unavailable`,
       `configuration_error`) render with the new visual style, in the same inline, non-blocking
       location near the submit button
-- [ ] The three retryable errors still offer a working Retry that resubmits the same text;
+- [x] The three retryable errors still offer a working Retry that resubmits the same text;
       `configuration_error` still offers no Retry and still reads as a problem to report
-- [ ] The textarea, file picker, and Label field remain editable while an error is visible, exactly
+- [x] The textarea, file picker, and Label field remain editable while an error is visible, exactly
       as before
-- [ ] All existing `UploadPage` tests (golden path, all four error shapes, the `beforeunload`
+- [x] All existing `UploadPage` tests (golden path, all four error shapes, the `beforeunload`
       guard) keep passing unchanged
-- [ ] Visible copy is Danish, sourced from the centralized strings module from ticket 06
+- [x] Visible copy is Danish, sourced from the centralized strings module from ticket 06
 
 ## Comments
+
+Implemented by restyling the shared `ErrorBox` component (`src/shared/ui/ErrorBox.module.css`),
+which `UploadPage` already used for all four error shapes — no Upload-only stylesheet was needed.
+Added `--danger` / `--danger-bg` / `--danger-border` theme tokens to `src/index.css` (mirroring the
+existing `--accent` triad, with light/dark variants) so the box's color, background, and border
+follow the same token pattern as the rest of the redesigned app, replacing the old hardcoded hex
+colors. Since `ErrorBox` is also used by `HistoryPage` and `ResultPage`, this restyle applies there
+too — same component, no logic/markup changes to those pages.
