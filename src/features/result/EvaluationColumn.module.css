@@ -3,5 +3,5 @@
 }
 
 .column section + section {
-  margin-top: 1.5rem;
+  margin-top: var(--space-5);
 }

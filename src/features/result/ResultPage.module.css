@@ -1,8 +1,8 @@
 .twoColumns,
 .threeColumns {
   display: grid;
-  gap: 2rem;
-  margin-top: 1.5rem;
+  gap: var(--space-6);
+  margin-top: var(--space-5);
   text-align: left;
 }
 
@@ -23,8 +23,8 @@
 
 .stateContainer {
   max-width: 28rem;
-  margin: 2rem auto 0;
-  padding: 2rem 1rem;
+  margin: var(--space-6) auto 0;
+  padding: var(--space-6) var(--space-4);
   text-align: center;
 }
 
@@ -35,12 +35,12 @@
 }
 
 .stateHeading {
-  margin-top: 1rem;
+  margin-top: var(--space-4);
   font-weight: 500;
   color: var(--text-h);
 }
 
 .stateBody {
-  margin-top: 0.25rem;
-  color: var(--text);
+  margin-top: var(--space-1);
+  color: var(--text-muted);
 }

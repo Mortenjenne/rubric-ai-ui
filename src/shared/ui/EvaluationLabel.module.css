@@ -1,4 +1,4 @@
 .label {
-  color: var(--text);
-  margin-bottom: 1rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
 }
