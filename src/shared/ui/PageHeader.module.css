@@ -8,9 +8,9 @@
 }
 
 .brand {
-  /* Matches the sidebar's 250px width (minus this header's own left padding) so the name sits
+  /* Matches the sidebar's 200px width (minus this header's own left padding) so the name sits
      directly above the sidebar column, not just at the header's left edge. */
-  width: calc(250px - 1.5rem);
+  width: calc(200px - 1.5rem);
   flex-shrink: 0;
   font-weight: 600;
   color: var(--text-h);
