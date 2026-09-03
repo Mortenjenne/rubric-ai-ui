@@ -11,6 +11,7 @@ function linkClassName({ isActive }) {
 export function Sidebar() {
   return (
     <aside className={styles.sidebar}>
+      <p className={styles.wordmark}>{strings.app.name}</p>
       <nav className={styles.nav} aria-label={strings.sidebar.ariaLabel}>
         <NavLink to="/" end className={linkClassName}>
           <Plus aria-hidden="true" size={16} /> {strings.sidebar.newSubmission}
