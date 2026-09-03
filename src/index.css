@@ -1,26 +1,39 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --text: #667085;
+  --text-h: #202124;
+  --text-muted: #98a2b3;
+  --border: #e2e3e0;
+  --border-subtle: #eef0ed;
   --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
+  --accent: #285c5b;
+  --accent-hover: #214b4a;
+  --accent-bg: #eef5f3;
+  --accent-border: rgba(40, 92, 91, 0.4);
   --social-bg: rgba(244, 243, 236, 0.5);
   --danger: #c0152f;
   --danger-bg: rgba(192, 21, 47, 0.08);
   --danger-border: rgba(192, 21, 47, 0.4);
   --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    rgba(0, 0, 0, 0.06) 0 10px 15px -3px, rgba(0, 0, 0, 0.03) 0 4px 6px -2px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
+  font: 15px/155% var(--sans);
+  letter-spacing: normal;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -29,64 +42,27 @@
   -moz-osx-font-smoothing: grayscale;
 
   @media (max-width: 1024px) {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --danger: #f87171;
-    --danger-bg: rgba(248, 113, 113, 0.12);
-    --danger-border: rgba(248, 113, 113, 0.4);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-/* Manual theme override (src/shared/theme/theme.js) — an attribute selector's specificity beats
-   a bare `:root`, so these win over the prefers-color-scheme block above regardless of source
-   order, letting an explicit choice override whatever the OS reports. */
-:root[data-theme='light'] {
-  color-scheme: light;
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --danger: #c0152f;
-  --danger-bg: rgba(192, 21, 47, 0.08);
-  --danger-border: rgba(192, 21, 47, 0.4);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-}
-
+/* Manual theme override (src/shared/theme/theme.js) — the app always sets data-theme explicitly
+   on load (light is the default; dark is opt-in only via the toggle), so OS/browser
+   prefers-color-scheme is intentionally not consulted here. */
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --bg: #16171d;
+  --surface: #1d1f27;
   --text: #9ca3af;
   --text-h: #f3f4f6;
-  --bg: #16171d;
+  --text-muted: #6b7280;
   --border: #2e303a;
+  --border-subtle: #262832;
   --code-bg: #1f2028;
-  --accent: #c084fc;
-  --accent-bg: rgba(192, 132, 252, 0.15);
-  --accent-border: rgba(192, 132, 252, 0.5);
+  --accent: #5ea39f;
+  --accent-hover: #4c8d89;
+  --accent-bg: rgba(94, 163, 159, 0.15);
+  --accent-border: rgba(94, 163, 159, 0.5);
   --social-bg: rgba(47, 48, 58, 0.5);
   --danger: #f87171;
   --danger-bg: rgba(248, 113, 113, 0.12);
@@ -118,26 +94,26 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-h);
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
+  font-size: 30px;
+  line-height: 128%;
+  letter-spacing: -0.2px;
+  margin: 0 0 8px;
   @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+    font-size: 26px;
   }
 }
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
+  font-size: 19px;
+  line-height: 130%;
+  letter-spacing: -0.1px;
   margin: 0 0 8px;
   @media (max-width: 1024px) {
-    font-size: 20px;
+    font-size: 17px;
   }
 }
 p {

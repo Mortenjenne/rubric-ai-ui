@@ -1176,3 +1176,44 @@ The desired experience is not:
 It is:
 
 "I can quickly understand what Rubric AI found, see the evidence, and make my own judgement."
+
+Appendix A. Visual tokens
+
+Concrete values for the qualitative direction in §3.5 and §40, worked one ticket at a time from
+`.scratch/rubric-ai-mvp/issues/12-…` onward. Source of truth is `src/index.css`; this appendix
+documents what ships there so the spec doesn't drift from the code.
+
+Light is the default, true presentation — the app does not consult the OS/browser
+`prefers-color-scheme` preference on first load. Dark remains available, opt-in only, via the
+sidebar's manual theme toggle.
+
+Palette (light):
+
+App background:   #F6F6F3
+Surface:           #FFFFFF
+Primary text:      #202124
+Secondary text:    #667085
+Muted text:        #98A2B3
+Border:            #E2E3E0
+Subtle border:     #EEF0ED
+
+Brand accent — Deep Nordic Teal, used sparingly (primary CTA, active nav, links, focus states),
+never as a large page background:
+
+Primary:       #285C5B
+Hover:         #214B4A
+Light surface: #EEF5F3
+
+Dark mode keeps the same structure with a lighter teal tuned for dark contrast, so the brand
+color stays consistent across both themes rather than reverting to a different accent.
+
+Typography: a neutral system font stack (`system-ui`) — no separate display font. Page title
+(`h1`) 28–32px/600, section heading (`h2`) 18–20px/600, body 14–16px, secondary/metadata text
+12–14px using the muted/secondary text tokens above.
+
+Spacing: a fixed scale — 4, 8, 12, 16, 24, 32, 48, 64px — preferred over introducing new UI
+elements to fill space.
+
+Borders and shadows: 1px borders in the border token, radius around 8–12px, avoid "pill
+everything." Shadows are minimal to absent — prefer a border plus whitespace over a floating
+shadow.

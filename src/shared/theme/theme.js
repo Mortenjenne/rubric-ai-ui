@@ -9,14 +9,11 @@ function readStoredTheme() {
   }
 }
 
-function systemPrefersDark() {
-  if (typeof window.matchMedia !== 'function') return false
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-}
-
-/** @returns {'light' | 'dark'} the explicitly chosen theme, or the OS preference if none was chosen */
+/** @returns {'light' | 'dark'} the explicitly chosen theme, or 'light' if none was chosen.
+ * Light is always the default presentation — the OS/browser color-scheme preference is
+ * intentionally not consulted; dark is opt-in only via the manual toggle. */
 export function getEffectiveTheme() {
-  return readStoredTheme() ?? (systemPrefersDark() ? 'dark' : 'light')
+  return readStoredTheme() ?? 'light'
 }
 
 /** @param {'light' | 'dark'} theme */
@@ -29,9 +26,8 @@ export function setTheme(theme) {
   }
 }
 
-/** Applies a previously chosen theme, if any. Otherwise leaves prefers-color-scheme in control,
- * so the page keeps following a live OS theme change until the Educator picks one explicitly. */
+/** Applies the effective theme (the stored choice, or 'light' by default) so the page never
+ * falls back to following the OS preference. */
 export function applyStoredTheme() {
-  const stored = readStoredTheme()
-  if (stored) document.documentElement.setAttribute('data-theme', stored)
+  document.documentElement.setAttribute('data-theme', getEffectiveTheme())
 }
