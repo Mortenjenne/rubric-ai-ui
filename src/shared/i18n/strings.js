@@ -16,9 +16,16 @@ export const strings = {
   },
   upload: {
     heading: 'Indlevering',
+    subheading: 'Indsend en indlevering til vurdering',
+    instruction: 'Indsæt hele indleveringen nedenfor.',
     reportTextLabel: 'Indleveringstekst',
+    textareaPlaceholder: 'Indsæt indleveringens tekst...',
+    charCount: (count) => `${count} tegn`,
     fileLabel: 'Eller vælg en .md- eller .txt-fil',
-    labelLabel: 'Mærkat (valgfrit)',
+    fileLoaded: (fileName) => `Fil indlæst: ${fileName}`,
+    labelLabel: 'Mærkat',
+    labelPlaceholder: 'f.eks. Anders Nielsen',
+    labelHelp: "Denne mærkat gemmes kun i denne browser og sendes aldrig til backend'en.",
     submit: 'Indsend',
     submitting: 'Vurderer…',
     progressStatus:

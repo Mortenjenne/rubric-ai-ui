@@ -66,7 +66,7 @@ describe('Upload flow', () => {
     })
   })
 
-  it('populates the textarea from an uploaded .txt file', async () => {
+  it('populates the textarea from an uploaded .txt file and shows the file-loaded feedback', async () => {
     const user = userEvent.setup()
     renderApp()
 
@@ -78,6 +78,18 @@ describe('Upload flow', () => {
     await waitFor(() =>
       expect(screen.getByLabelText(/indleveringstekst/i)).toHaveValue('Report text from a file.'),
     )
+    expect(screen.getByText('Fil indlæst: report.txt')).toBeInTheDocument()
+  })
+
+  it('shows a live character count that updates as the submission text changes', async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    expect(screen.getByText('0 tegn')).toBeInTheDocument()
+
+    await user.type(screen.getByLabelText(/indleveringstekst/i), 'Hej')
+
+    expect(screen.getByText('3 tegn')).toBeInTheDocument()
   })
 
   it('blocks submission of blank or whitespace-only text', async () => {

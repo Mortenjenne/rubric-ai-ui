@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Paperclip } from 'react-feather'
+import { Loader, Paperclip } from 'react-feather'
 import { useCreateEvaluation } from './useCreateEvaluation'
 import { getEvaluationErrorCopy } from './evaluationErrors'
 import { saveLabel } from '../../shared/storage/labels'
@@ -11,6 +11,7 @@ import styles from './UploadPage.module.css'
 export function UploadPage() {
   const [submissionText, setSubmissionText] = useState('')
   const [label, setLabel] = useState('')
+  const [fileName, setFileName] = useState('')
   const navigate = useNavigate()
   const { mutate, isPending, isError, error } = useCreateEvaluation()
 
@@ -31,6 +32,7 @@ export function UploadPage() {
     if (!file) return
 
     setSubmissionText(await file.text())
+    setFileName(file.name)
     event.target.value = ''
   }
 
@@ -61,42 +63,57 @@ export function UploadPage() {
   return (
     <section>
       <h1>{strings.upload.heading}</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <p className={styles.subheading}>{strings.upload.subheading}</p>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.field}>
           <label htmlFor="submission-text">{strings.upload.reportTextLabel}</label>
+          <p className={styles.instruction}>{strings.upload.instruction}</p>
           <textarea
             id="submission-text"
             value={submissionText}
             onChange={(event) => setSubmissionText(event.target.value)}
+            placeholder={strings.upload.textareaPlaceholder}
             disabled={isPending}
+            className={styles.textarea}
           />
-        </div>
-        <div>
-          <label htmlFor="submission-file" className={styles.fileLabel}>
-            <Paperclip aria-hidden="true" size={16} /> {strings.upload.fileLabel}
-          </label>
+          <p className={styles.charCount}>{strings.upload.charCount(submissionText.length)}</p>
           <input
             id="submission-file"
             type="file"
             accept=".md,.txt"
             onChange={handleFileChange}
             disabled={isPending}
+            className={styles.fileInput}
           />
+          <label htmlFor="submission-file" className={styles.fileLabel}>
+            <Paperclip aria-hidden="true" size={16} /> {strings.upload.fileLabel}
+          </label>
+          {fileName && <p className={styles.fileLoaded}>{strings.upload.fileLoaded(fileName)}</p>}
         </div>
-        <div>
+        <div className={styles.field}>
           <label htmlFor="submission-label">{strings.upload.labelLabel}</label>
           <input
             id="submission-label"
             type="text"
             value={label}
             onChange={(event) => setLabel(event.target.value)}
+            placeholder={strings.upload.labelPlaceholder}
             disabled={isPending}
+            className={styles.labelInput}
           />
+          <p className={styles.labelHelp}>{strings.upload.labelHelp}</p>
         </div>
-        <button type="submit" disabled={!canSubmit}>
-          {isPending ? strings.upload.submitting : strings.upload.submit}
-        </button>
-        {isPending && <p role="status">{strings.upload.progressStatus}</p>}
+        <div className={styles.actions}>
+          <button type="submit" disabled={!canSubmit} className={styles.submitButton}>
+            {isPending ? strings.upload.submitting : strings.upload.submit}
+          </button>
+        </div>
+        {isPending && (
+          <p role="status" className={styles.progressStatus}>
+            <Loader aria-hidden="true" size={16} className="spin-icon" />
+            {strings.upload.progressStatus}
+          </p>
+        )}
         {errorCopy && (
           <ErrorBox
             message={errorCopy.message}
