@@ -22,13 +22,14 @@ describe('App shell', () => {
     renderApp()
 
     const nav = screen.getByRole('navigation')
-    const sidebar = screen.getByRole('complementary')
     const header = screen.getByRole('banner')
     expect(within(nav).getByRole('link', { name: 'Ny indlevering' })).toBeInTheDocument()
     expect(within(nav).getByRole('link', { name: 'Historik' })).toBeInTheDocument()
-    expect(within(sidebar).getByText('Underviser')).toBeInTheDocument()
     expect(within(header).getByText('Rubric AI')).toBeInTheDocument()
     expect(within(header).getByText('Underviser')).toBeInTheDocument()
+    expect(
+      within(header).getByRole('button', { name: 'Skift til mørkt tema' }),
+    ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Indlevering' })).toBeInTheDocument()
 
     await user.click(within(nav).getByRole('link', { name: 'Historik' }))

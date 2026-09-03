@@ -140,24 +140,23 @@ Navigation to the Ny indlevering and Historik views should always be available.
 Desktop:
 
 ┌──────────────────────┬────────────────────────────────────────────────────┐
-│                      │ Rubric AI                              Underviser  │
-│  RUBRIC AI           ├────────────────────────────────────────────────────┤
-│                      │                                                    │
-│  + Ny indlevering    │                    SIDE                           │
-│                      │                                                    │
+│                      │ Rubric AI   Underviser  ◐                          │
+│                      ├────────────────────────────────────────────────────┤
+│  + Ny indlevering    │                                                    │
+│                      │                    SIDE                           │
 │  Historik            │                                                    │
 │                      │                                                    │
 │                      │                                                    │
 │                      │                                                    │
-│  ─────────────────   │                                                    │
-│  Indstillinger       │                                                    │
 │                      │                                                    │
-│  ● Underviser        │                                                    │
 └──────────────────────┴────────────────────────────────────────────────────┘
 
+The "Rubric AI" name, the Underviser identity, and the light/dark theme toggle all live once, in
+the header — left-aligned as a single cluster, not spread to the header's edges. The sidebar is
+navigation only; it does not repeat the name or identity, and has no footer.
+
 The content area carries a low-contrast header above the routed page (subtle bottom border, no
-navigation in it — navigation stays sidebar-only). It repeats the "Rubric AI" name and the
-Underviser identity for context; it is not a second nav bar.
+navigation in it — navigation stays sidebar-only).
 
 Sidebar
 
@@ -166,16 +165,6 @@ Primary actions:
 + Ny indlevering
 
 Historik
-
-Secondary:
-
-Indstillinger
-
-The MVP does not require Indstillinger (Settings) functionality. It may remain a visual placeholder if needed by the shell.
-
-The bottom identity indicator should say:
-
-Underviser
 
 Do not introduce login/account UI. Authentication is explicitly out of scope.
 

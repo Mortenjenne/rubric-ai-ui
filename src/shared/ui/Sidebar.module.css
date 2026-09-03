@@ -8,13 +8,6 @@
   text-align: left;
 }
 
-.wordmark {
-  margin: 0 0 1.5rem;
-  padding: 0 0.75rem;
-  font-weight: 600;
-  color: var(--text-h);
-}
-
 .nav {
   display: flex;
   flex-direction: column;
@@ -45,26 +38,4 @@
   border-left-color: var(--accent);
   color: var(--text-h);
   font-weight: 600;
-}
-
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-top: auto;
-  padding: 0.5rem 0.75rem;
-  border-top: 1px solid var(--border);
-  padding-top: 1rem;
-}
-
-.identity {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text);
-}
-
-.identity svg {
-  flex-shrink: 0;
 }

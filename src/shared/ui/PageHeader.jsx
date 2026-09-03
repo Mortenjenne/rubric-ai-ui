@@ -1,9 +1,10 @@
 import { User } from 'react-feather'
 import { strings } from '../i18n/strings'
+import { ThemeToggle } from './ThemeToggle'
 import styles from './PageHeader.module.css'
 
 /** A low-contrast context bar above the routed page content. Navigation lives in the sidebar
- * only — this header repeats identity, not the nav links. */
+ * only — this header repeats identity, not the nav links. Everything clusters to the left. */
 export function PageHeader() {
   return (
     <header className={styles.header}>
@@ -11,6 +12,7 @@ export function PageHeader() {
       <span className={styles.identity}>
         <User aria-hidden="true" size={16} /> {strings.sidebar.identity}
       </span>
+      <ThemeToggle />
     </header>
   )
 }
