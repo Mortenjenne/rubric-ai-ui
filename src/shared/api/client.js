@@ -1,7 +1,7 @@
 function resolveApiBaseUrl() {
   const configured = import.meta.env.VITE_API_BASE_URL
   if (configured) return configured
-  if (import.meta.env.DEV) return 'http://localhost:8080'
+  if (import.meta.env.DEV) return 'http://localhost:8081'
   throw new Error('VITE_API_BASE_URL must be set outside of development')
 }
 
