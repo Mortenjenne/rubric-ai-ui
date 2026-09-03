@@ -1,16 +1,26 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
   padding: 0.75rem 1.5rem;
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text);
   flex-shrink: 0;
 }
 
-.name {
+.brand {
+  /* Matches the sidebar's 250px width (minus this header's own left padding) so the name sits
+     directly above the sidebar column, not just at the header's left edge. */
+  width: calc(250px - 1.5rem);
+  flex-shrink: 0;
   font-weight: 600;
   color: var(--text-h);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
 }
 
 .identity {

@@ -140,8 +140,8 @@ Navigation to the Ny indlevering and Historik views should always be available.
 Desktop:
 
 ┌──────────────────────┬────────────────────────────────────────────────────┐
-│                      │ Rubric AI   Underviser  ◐                          │
-│                      ├────────────────────────────────────────────────────┤
+│ Rubric AI            │                              Underviser  ◐         │
+├──────────────────────┼────────────────────────────────────────────────────┤
 │  + Ny indlevering    │                                                    │
 │                      │                    SIDE                           │
 │  Historik            │                                                    │
@@ -151,12 +151,11 @@ Desktop:
 │                      │                                                    │
 └──────────────────────┴────────────────────────────────────────────────────┘
 
-The "Rubric AI" name, the Underviser identity, and the light/dark theme toggle all live once, in
-the header — left-aligned as a single cluster, not spread to the header's edges. The sidebar is
-navigation only; it does not repeat the name or identity, and has no footer.
-
-The content area carries a low-contrast header above the routed page (subtle bottom border, no
-navigation in it — navigation stays sidebar-only).
+The header spans the full width, above both the sidebar and the content — not just above the
+content column. "Rubric AI" sits in the segment directly over the sidebar; the Underviser identity
+and the light/dark theme toggle sit together on the header's right, over the content column. The
+sidebar itself is navigation only below the header — it does not repeat the name or identity, and
+has no footer.
 
 Sidebar
 

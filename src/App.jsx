@@ -8,10 +8,10 @@ import styles from './App.module.css'
 
 function App() {
   return (
-    <div className={styles.shell}>
-      <Sidebar />
-      <div className={styles.content}>
-        <PageHeader />
+    <div className={styles.appShell}>
+      <PageHeader />
+      <div className={styles.shell}>
+        <Sidebar />
         <main className={styles.main}>
           <Routes>
             <Route path="/" element={<UploadPage />} />
