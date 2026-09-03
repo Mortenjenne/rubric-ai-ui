@@ -140,10 +140,10 @@ Navigation to the Ny indlevering and Historik views should always be available.
 Desktop:
 
 ┌──────────────────────┬────────────────────────────────────────────────────┐
+│                      │ Rubric AI                              Underviser  │
+│  RUBRIC AI           ├────────────────────────────────────────────────────┤
 │                      │                                                    │
-│  RUBRIC AI           │                    SIDE                           │
-│                      │                                                    │
-│  + Ny indlevering    │                                                    │
+│  + Ny indlevering    │                    SIDE                           │
 │                      │                                                    │
 │  Historik            │                                                    │
 │                      │                                                    │
@@ -154,6 +154,10 @@ Desktop:
 │                      │                                                    │
 │  ● Underviser        │                                                    │
 └──────────────────────┴────────────────────────────────────────────────────┘
+
+The content area carries a low-contrast header above the routed page (subtle bottom border, no
+navigation in it — navigation stays sidebar-only). It repeats the "Rubric AI" name and the
+Underviser identity for context; it is not a second nav bar.
 
 Sidebar
 

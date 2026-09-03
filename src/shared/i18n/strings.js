@@ -1,6 +1,9 @@
 /** Centralized Danish UI copy. This app has a single fixed locale — no i18n library, no
  *  switcher, no English fallback. Domain terms follow the Danish UI labels in CONTEXT.md. */
 export const strings = {
+  app: {
+    name: 'Rubric AI',
+  },
   sidebar: {
     ariaLabel: 'Hovednavigation',
     newSubmission: 'Ny indlevering',
