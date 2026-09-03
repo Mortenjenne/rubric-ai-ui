@@ -135,15 +135,5 @@
 }
 
 .emptyCta {
-  display: inline-block;
   margin-top: 1.25rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: inherit;
-  text-decoration: none;
-}
-
-.emptyCta:hover {
-  background: var(--accent-bg);
 }

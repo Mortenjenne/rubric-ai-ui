@@ -4,6 +4,7 @@ import { ChevronRight, Inbox, Loader, Search } from 'react-feather'
 import { getLabel } from '../../shared/storage/labels'
 import { useEvaluations } from './useEvaluations'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
+import { Button } from '../../shared/ui/Button'
 import { SuggestedGrade } from '../../shared/ui/SuggestedGrade'
 import { strings } from '../../shared/i18n/strings'
 import styles from './HistoryPage.module.css'
@@ -103,9 +104,9 @@ export function HistoryPage() {
           <Inbox aria-hidden="true" size={32} className={styles.emptyIcon} />
           <p className={styles.emptyHeading}>{strings.history.emptyHeading}</p>
           <p className={styles.emptyBody}>{strings.history.emptyBody}</p>
-          <Link to="/" className={styles.emptyCta}>
+          <Button as={Link} to="/" variant="outline" className={styles.emptyCta}>
             {strings.sidebar.newSubmission}
-          </Link>
+          </Button>
         </div>
       )}
 

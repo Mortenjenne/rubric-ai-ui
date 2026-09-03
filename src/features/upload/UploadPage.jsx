@@ -5,6 +5,7 @@ import { useCreateEvaluation } from './useCreateEvaluation'
 import { getEvaluationErrorCopy } from './evaluationErrors'
 import { saveLabel } from '../../shared/storage/labels'
 import { ErrorBox } from '../../shared/ui/ErrorBox'
+import { Button } from '../../shared/ui/Button'
 import { strings } from '../../shared/i18n/strings'
 import styles from './UploadPage.module.css'
 
@@ -104,9 +105,9 @@ export function UploadPage() {
           <p className={styles.labelHelp}>{strings.upload.labelHelp}</p>
         </div>
         <div className={styles.actions}>
-          <button type="submit" disabled={!canSubmit} className={styles.submitButton}>
+          <Button type="submit" disabled={!canSubmit} loading={isPending}>
             {isPending ? strings.upload.submitting : strings.upload.submit}
-          </button>
+          </Button>
         </div>
         {isPending && (
           <p role="status" className={styles.progressStatus}>

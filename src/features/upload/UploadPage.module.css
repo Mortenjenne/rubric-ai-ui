@@ -113,27 +113,6 @@
   justify-content: flex-end;
 }
 
-.submitButton {
-  padding: 0.6rem 1.25rem;
-  border: none;
-  border-radius: 6px;
-  background: var(--accent);
-  color: var(--bg);
-  font: inherit;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.submitButton:disabled {
-  background: var(--border);
-  color: var(--text);
-  cursor: default;
-}
-
-.submitButton:not(:disabled):hover {
-  opacity: 0.9;
-}
-
 .progressStatus {
   display: flex;
   align-items: center;

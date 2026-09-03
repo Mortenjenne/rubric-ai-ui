@@ -1,4 +1,5 @@
 import { AlertCircle, RefreshCw } from 'react-feather'
+import { Button } from './Button'
 import styles from './ErrorBox.module.css'
 
 /**
@@ -13,10 +14,10 @@ export function ErrorBox({ message, actionLabel, onAction }) {
         {message}
       </p>
       {actionLabel && (
-        <button type="button" onClick={onAction} className={styles.action}>
+        <Button variant="outline" tone="danger" onClick={onAction} className={styles.action}>
           <RefreshCw aria-hidden="true" size={14} />
           {actionLabel}
-        </button>
+        </Button>
       )}
     </div>
   )
